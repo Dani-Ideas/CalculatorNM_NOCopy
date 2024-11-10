@@ -32,7 +32,7 @@ def newtonRaphson(x0):
     return df
 
 # Crear la ventana de Tkinter para mostrar la tabla
-def NR_mostrar_tabla():
+def nr_mostrar_tabla():
     # Crear ventana
     root = tk.Tk()
     root.title("Tabla de Newton-Raphson")

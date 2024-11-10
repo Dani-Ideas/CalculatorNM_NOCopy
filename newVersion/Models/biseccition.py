@@ -44,7 +44,7 @@ def bisection(a, b):
     return df
 
 # Crear la ventana principal de Tkinter
-def MB_mostrar_tabla():
+def mb_mostrar_tabla():
     # Crear ventana
     root = tk.Tk()
     root.title("Tabla de Bisección")

@@ -1,41 +1,56 @@
 import tkinter as tk
-from tkinter import Button
-from Models.NRaphsonMethod import NR_mostrar_tabla
 
-chosseAlg=0
-# Función para cambiar la selección de botones
-def seleccionar_boton(boton_seleccionado):
-    if boton_seleccionado == 'bisec':
-        B81.config(bg="red", activebackground="IndianRed1")  # Botón Bisec se selecciona con rojo
-        B82.config(bg="SlateGray2", activebackground="SlateGray2")  # Des-seleccionamos el botón Newton
-        chosseAlg=1
-    elif boton_seleccionado == 'newton':
-        B81.config(bg="SlateGray2", activebackground="SlateGray2")  # Des-seleccionamos el botón Bisec
-        B82.config(bg="red", activebackground="IndianRed1")  # Botón Newton se selecciona con rojo
-        chosseAlg=2
-        NR_mostrar_tabla()  # Llamar a la función para mostrar la tabla solo cuando Newton se selecciona
+class CalculatorView:
+    def __init__(self, root):
+        self.root = root
+         # Obtener las dimensiones de la pantalla
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        
+        # Ajustar la ventana a todo el tamaño de la pantalla
+        self.root.geometry(f"{int(screen_width*.9)}x{int(screen_height*.8)}")
 
+        # Variables
+        self.txt = tk.StringVar()
+        self.hidden_frame = tk.Frame(self.root)
+        self.create_widgets()
 
-# Crear la ventana principal
-root = tk.Tk()
-root.title("Selección de Botones")
+    def create_widgets(self):
+        # Frame principal que contiene tanto el Entry principal como los widgets ocultos
+        self.main_frame = tk.Frame(self.root)
+        self.main_frame.grid(row=0, column=0, sticky="nsew")
 
-# Crear un marco para los botones
-F = tk.Frame(root)
-F.pack(padx=10, pady=10)
+        # Configurar las columnas para que se expandan proporcionalmente
+        self.main_frame.grid_columnconfigure(0, weight=1)  # Primera columna: Entry principal
+        self.main_frame.grid_columnconfigure(1, weight=0)  # Segunda columna: Contenedor de widgets ocultos
 
-# Crear botones y asignarles el comando de selección
-B81 = Button(F, text="Bisec", font=("None 25 bold"), bd=4, width=5, bg="SlateGray1", activebackground="IndianRed1", command=lambda: seleccionar_boton('bisec'))
-B81.grid(row=8, column=0)
+        # Entry principal (a la izquierda)
+        self.entry1 = tk.Entry(self.main_frame, textvariable=self.txt, font=("None 30 bold"), bg="yellow", bd=5)
+        self.entry1.grid(row=0, column=0, columnspan=1, pady=10, ipadx=58, ipady=12, sticky="ew")  # Ajuste horizontal
 
-B82 = Button(F, text="Newton", font=("None 25 bold"), bd=4, width=5, bg="SlateGray2", activebackground="IndianRed1", command=lambda: seleccionar_boton('newton'))
-B82.grid(row=8, column=1)
+        # Frame con los textos y el segundo Entry (a la derecha)
+        self.create_hidden_widgets()
 
+        # Botón para mostrar u ocultar los textos y el segundo Entry
+        self.toggle_button = tk.Button(self.main_frame, text="Mostrar/Ocultar", command=self.toggle_hidden_widgets, font=("None 15 bold"))
+        self.toggle_button.grid(row=1, column=0, pady=10)
 
-B83 = Button(F, text="Newton", font=("None 25 bold"), bd=4, width=5, bg="SlateGray2", activebackground="IndianRed1", command=lambda: seleccionar_boton('newton'))
-B83.grid(row=8, column=1)
-# Seleccionar el botón "Bisec" por defecto al iniciar la aplicación
-seleccionar_boton('bisec')
+    def create_hidden_widgets(self):
+        # Contenedor para el par de textos y el segundo Entry (a la derecha del Entry principal)
+        self.hidden_frame = tk.Frame(self.main_frame)
+        self.hidden_frame.grid(row=0, column=1, padx=10, sticky="nsew")  # A la derecha
 
-# Ejecutar la aplicación
-root.mainloop()
+        label1 = tk.Label(self.hidden_frame, text="Texto 1", font=("None 15 bold"), bg="#4A5BEB")
+        label1.grid(row=0, column=0)
+        label2 = tk.Label(self.hidden_frame, text="Texto 2", font=("None 15 bold"), bg="#4A5BEB")
+        label2.grid(row=0, column=1)
+
+        self.entry2 = tk.Entry(self.hidden_frame, font=("None 15 bold"), bg="lightblue", bd=5)
+        self.entry2.grid(row=0, column=2)
+
+    def toggle_hidden_widgets(self):
+        # Alterna la visibilidad del Frame que contiene los textos y el Entry
+        if self.hidden_frame.winfo_ismapped():
+            self.hidden_frame.grid_forget()  # Oculta
+        else:
+            self.hidden_frame.grid(row=0, column=1, padx=10, sticky="nsew")  # Muestra
