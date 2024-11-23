@@ -41,50 +41,42 @@ def gaussSeidel(A, b, x0, N, tol):
     print("La matriz no converge.")
     return None
 
-""" 
-Ejemplo de uso
-Supongamos que queremos resolver el sistema de ecuaciones lineales:
+# Ejemplos de uso
 
--4.6658333e+01*x1 - 8.6801220e+00*x2 - 1.6502950e+00*x3 = -10.308984
-0.1*x1 + 1.2866580e+00*x2 + 5.2480200e-01*x3 = -1.929987
-0.3*x1 - 0.2*x2 - 1.0e-02*x3 = 0.0
+# Ejemplo 1
+# Resolver el sistema:
+# -46.658333*x1 - 8.680122*x2 - 1.650295*x3 = -10.308984
+# 0.1*x1 + 1.286658*x2 + 0.524802*x3 = -1.929987
+# 0.3*x1 - 0.2*x2 - 0.01*x3 = 0.0
 
-Con la matriz A y el vector b definidos como:
-
-A = np.array([
-    [3.0, -0.1, -0.2],
-    [0.1, 7.0, -0.3],
-    [0.3, -0.2, -10.0]
+A1 = np.array([
+    [-46.658333, -8.680122, -1.650295],
+    [0.1, 1.286658, 0.524802],
+    [0.3, -0.2, -0.01]
 ])
 
-b = np.array([7.85, -19.30, 71.40])
-
-x0 = np.zeros(3)  # Vector de inicialización
-
-gaussSeidel(A, b, x0, 3, 0.001)
-A = np.array([
-    [-4.6658333e+01, -8.6801220e+00, -1.6502950e+00],
-    [0.1, 1.2866580e+00, 5.2480200e-01],
-    [0.3, -0.2, -1.0e-02]
-])
-
-b = np.array([-10.308984, -1.929987, 0.0])
-x0 = np.zeros(len(b))  # Vector de inicialización
+b1 = np.array([-10.308984, -1.929987, 0.0])
+x0_1 = np.zeros(len(b1))
 
 # Llamada al método
-gaussSeidel(A, b, x0, 100, 0.001)
+print("Ejemplo 1:")
+gaussSeidel(A1, b1, x0_1, 100, 0.001)
 
+# Ejemplo 2
+# Resolver el sistema:
+# 4*x1 - x2 + x3 = 7
+# -2*x1 + 6*x2 + x3 = 9
+# x1 + x2 + 5*x3 = -6
 
-# Definimos la matriz A y el vector b
-B = np.array([
+A2 = np.array([
     [4, -1, 1],
     [-2, 6, 1],
     [1, 1, 5]
 ])
 
-c = np.array([7, 9, -6])
-x1 = np.zeros(len(b))  # Vector de inicialización
+b2 = np.array([7, 9, -6])
+x0_2 = np.zeros(len(b2))
 
 # Llamada al método con 100 iteraciones máximas y tolerancia de 0.001
-gaussSeidel(B, c, x1, 100, 0.001)
-"""
+print("Ejemplo 2:")
+gaussSeidel(A2, b2, x0_2, 100, 0.001)
